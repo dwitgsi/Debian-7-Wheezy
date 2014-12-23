@@ -1,0 +1,52 @@
+﻿<VirtualHost *:80>
+        ServerAdmin webmaster@localhost
+
+        ServerName phpmyadmin.domain.tld
+
+        DocumentRoot /home/phpmyadmin/public_html
+        # On indique à Suexec qui est le propriétaire du site
+        SuexecUserGroup phpmyadmin phpmyadmin
+        <Directory /home/phpmyadmin/public_html>
+        Options FollowSymLinks
+        DirectoryIndex index.php
+
+        <IfModule mod_php5.c>
+                AddType application/x-httpd-php .php
+
+                php_flag magic_quotes_gpc Off
+                php_flag track_vars On
+                php_flag register_globals Off
+                php_value include_path .
+        </IfModule>
+
+        </Directory>
+
+        # Authorize for setup
+        <Directory /home/phpmyadmin/public_html/setup>
+            <IfModule mod_authn_file.c>
+            AuthType Basic
+            AuthName "phpMyAdmin Setup"
+            AuthUserFile /etc/phpmyadmin/htpasswd.setup
+            </IfModule>
+            Require valid-user
+        </Directory>
+
+        # Disallow web access to directories that don't need it
+        <Directory /home/phpmyadmin/public_html/libraries>
+            Order Deny,Allow
+            Deny from All
+        </Directory>
+        <Directory /home/phpmyadmin/public_html/setup/lib>
+            Order Deny,Allow
+            Deny from All
+        </Directory>
+
+        ErrorLog ${APACHE_LOG_DIR}/phpmyadmin/error.log
+
+        # Possible values include: debug, info, notice, warn, error, crit,
+        # alert, emerg.
+        LogLevel warn
+
+         CustomLog ${APACHE_LOG_DIR}/phpmyadmin/access.log combined
+
+</VirtualHost>
