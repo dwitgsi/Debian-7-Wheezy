@@ -42,8 +42,8 @@ echo "" >> $FILE_ROOT
 echo "" >> $FILE_USER
 echo "# Alias" >> $FILE_ROOT
 echo "# Alias" >> $FILE_USER
-echo "alias ll='ls -al --color=auto'" >> $FILE_ROOT
-echo "alias ll='ls -al --color=auto'" >> $FILE_USER
+echo "alias ll='ls -ahl --color=auto'" >> $FILE_ROOT
+echo "alias ll='ls -ahl --color=auto'" >> $FILE_USER
 echo "" >> $FILE_ROOT
 echo "" >> $FILE_USER
 

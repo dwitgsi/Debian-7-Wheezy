@@ -1,0 +1,15 @@
+GREY="\[\e[0;30m\]"
+PURPLE="\[\e[0;35m\]"
+LIGHT_PURPLE="\[\e[01;35m\]"
+RED="\[\e[0;31m\]"
+GREEN="\[\e[0;32m\]"
+BLUE="\[\e[0;34m\]"
+
+SQUARE="\342\226\210"
+
+if [ "$UID" -eq "0" ]  # Si root
+then
+    PS1="\n$RED$SQUARE $RED\u@\h $LIGHT_PURPLE\w\n\`if [ \$? = "0" ]; then echo '${GREEN}'; else echo '${RED}'; fi\`$SQUARE $PURPLE\t $GRAY#\!$PURPLE $ \[\033[0;39m\]"
+else
+    PS1="\n$GREEN$SQUARE $GREEN\u@\h $LIGHT_PURPLE\w\n\`if [ \$? = "0" ]; then echo '${GREEN}'; else echo '${RED}'; fi\`$SQUARE $PURPLE\t $GRAY#\!$PURPLE $ \[\033[0;39m\]"
+fi

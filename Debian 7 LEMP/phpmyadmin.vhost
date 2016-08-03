@@ -1,0 +1,75 @@
+server {
+        root /usr/share/nginx/www;
+        index index.html index.htm;
+
+        # Make site accessible from http://localhost/
+        server_name localhost;
+
+        location / {
+                # First attempt to serve request as file, then
+                # as directory, then fall back to displaying a 404.
+                try_files $uri $uri/ /index.html;
+                # Uncomment to enable naxsi on this location
+                # include /etc/nginx/naxsi.rules
+        }
+
+        location /doc/ {
+                alias /usr/share/doc/;
+                autoindex on;
+                allow 127.0.0.1;
+                allow ::1;
+                deny all;
+        }
+
+        # Only for nginx-naxsi used with nginx-naxsi-ui : process denied requests
+        #location /RequestDenied {
+        #       proxy_pass http://127.0.0.1:8080;
+        #}
+
+        error_page 500 502 503 504 /50x.html;
+        location = /50x.html {
+                root /usr/share/nginx/www;
+        }
+
+		location ~ \.php$ {
+			try_files $uri =404;
+			fastcgi_pass unix:/var/run/php5-fpm.sock;
+			fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+			include fastcgi_params;
+        }
+		
+        location /phpmyadmin {
+                root /usr/share/;
+                index index.php index.html index.htm;
+                location ~ ^/phpmyadmin/(.+\.php)$ {
+                        try_files $uri =404;
+                        root /usr/share/;
+                        fastcgi_pass unix:/home/phpmyadmin/tmp/phpmyadmin.sock;
+                        fastcgi_param HTTPS $https;
+                        fastcgi_index index.php;
+                        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+                        include fastcgi_params;
+                }
+        }
+
+        location ~* ^/phpmyadmin/(.+\.(jpg|jpeg|gif|css|png|js|ico|html|xml|txt))$ {
+                root /usr/share/;
+        }
+
+        # Serve static files directly
+        location ~* \.(png|jpe?g|gif|ico)$ {
+                expires 1y;
+                access_log off;
+                try_files $uri $uri/ @rewrite;
+                gzip off;
+        }
+        location ~* \.(css)$ {
+                expires 1d;
+                access_log off;
+        }
+        location ~* \.(js)$ {
+                expires 1h;
+                access_log off;
+        }
+
+}

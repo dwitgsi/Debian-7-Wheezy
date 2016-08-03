@@ -28,7 +28,7 @@ then
 	echo "L'utilisateur existe !"
 	exit 1
 else
-	useradd -p $PASS -m -s /bin/bash $USER
+	useradd -p $PASS -m -s /bin/false $USER
 	echo "Utilisateur "$USER" cree."
 fi
 
@@ -81,7 +81,7 @@ if ! [ $? = "0" ]
 	then
 		echo "Probleme de connexion MySQL"
 	else
-		echo "Base de donnees cree."
+		echo "Base de donnees creee."
 fi 
 rm /tmp/$$.tmp.sql
 #-----------------------

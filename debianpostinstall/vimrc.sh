@@ -33,6 +33,12 @@ sed -i ''$LINENUMBER',+2 s/^\"//g' $FILE
 LINENUMBER=$(grep -n 'set mouse=a' $FILE | awk -F':' '{ print $1 }')
 sed -i ''$LINENUMBER',+0 s/^\"//g' $FILE
 
+# Ajout des numéros de ligne
+echo "" >> $FILE
+echo "\" Numéros de ligne" >> $FILE
+echo "set nu" >> $FILE
+echo "" >> $FILE
+
 # Ajout d'une ligne horizontale à l'emplacement du curseur
 echo "\" Ligne horizontale" >> $FILE
 echo "set cursorline" >> $FILE
